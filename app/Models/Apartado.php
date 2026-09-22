@@ -10,6 +10,8 @@ class Apartado extends Model
 {
     use HasFactory;
 
+    protected $table = 'apartados';
+
     protected $fillable = [
         'codigo', 'nombre_cliente', 'telefono', 'direccion', 'nota', 'estado', 'subtotal',
     ];

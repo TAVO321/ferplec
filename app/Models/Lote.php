@@ -11,6 +11,8 @@ class Lote extends Model
 {
     use HasFactory;
 
+    protected $table = 'lotes';
+
     protected $fillable = [
         'producto_id', 'proveedor_id', 'numero_lote', 'cantidad_inicial',
         'cantidad_disponible', 'costo_unitario', 'fecha_ingreso', 'nota',

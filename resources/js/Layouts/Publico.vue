@@ -71,6 +71,18 @@ function buscar() {
 
                 <div class="flex items-center gap-2">
                     <Link
+                        href="/acceso"
+                        class="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 transition hover:bg-white/10 hover:text-white"
+                        title="Acceso solo para administradores"
+                        aria-label="Acceso administrador"
+                    >
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5">
+                            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M19 8l-7-4-7 4v8l7 4 7-4V8z" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </Link>
+
+                    <Link
                         href="/carrito"
                         class="relative flex h-10 w-10 items-center justify-center rounded-xl text-slate-200 transition hover:bg-white/10 hover:text-white"
                         aria-label="Carrito"
@@ -116,6 +128,7 @@ function buscar() {
                     <Link href="/catalogo" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10" @click="menuAbierto = false">Catalogo</Link>
                     <Link href="/apartado" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10" @click="menuAbierto = false">Apartar productos</Link>
                     <Link href="/pedido-especial" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10" @click="menuAbierto = false">Pedido especial</Link>
+                    <Link href="/acceso" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-400 hover:bg-white/10" @click="menuAbierto = false">Solo administradores</Link>
                 </nav>
             </div>
         </header>

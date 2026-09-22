@@ -10,6 +10,8 @@ class Area extends Model
 {
     use HasFactory;
 
+    protected $table = 'areas';
+
     protected $fillable = ['nombre', 'slug', 'descripcion', 'icono', 'color', 'orden', 'activa'];
 
     protected function casts(): array
