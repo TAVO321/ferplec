@@ -74,7 +74,8 @@ function eliminar(producto) {
                         <thead class="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
                             <tr>
                                 <th class="px-4 py-3 font-semibold">Producto</th>
-                                <th class="px-4 py-3 font-semibold">Categoría</th>
+                                <th class="px-4 py-3 font-semibold">Categoria</th>
+                                <th class="px-4 py-3 font-semibold">Marca</th>
                                 <th class="px-4 py-3 font-semibold">Precio</th>
                                 <th class="px-4 py-3 font-semibold">Stock</th>
                                 <th class="px-4 py-3 font-semibold">Estado</th>
@@ -98,6 +99,10 @@ function eliminar(producto) {
                                 <td class="px-4 py-3">
                                     <p class="text-slate-700">{{ p.categoria }}</p>
                                     <p class="text-xs text-slate-400">{{ p.area }}</p>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <p class="text-slate-700">{{ p.marca || '—' }}</p>
+                                    <p class="text-xs text-slate-400">{{ p.unidad_de_medida }}</p>
                                 </td>
                                 <td class="px-4 py-3">
                                     <Moneda :valor="p.precio" clase="font-semibold text-slate-800" />

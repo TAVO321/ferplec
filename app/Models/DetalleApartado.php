@@ -29,4 +29,9 @@ class DetalleApartado extends Model
     {
         return $this->belongsTo(Producto::class, 'producto_id');
     }
+
+    public function lote(): BelongsTo
+    {
+        return $this->belongsTo(Lote::class, 'lote_id');
+    }
 }

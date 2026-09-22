@@ -28,7 +28,7 @@ class StorefrontController extends Controller
             ]);
 
         $destacados = $this->transformarProductos(
-            Producto::where('activo', true)->where('destacado', true)->with('categoria')->limit(8)->get(),
+            Producto::where('activo', true)->where('destacado', true)->with('categoria')->limit(6)->get(),
         );
 
         $nuevos = $this->transformarProductos(
@@ -152,6 +152,9 @@ class StorefrontController extends Controller
             'nombre' => $producto->nombre,
             'slug' => $producto->slug,
             'codigo' => $producto->codigo,
+            'marca' => $producto->marca,
+            'unidad_de_medida' => $producto->unidad_de_medida,
+            'disponibilidad' => $producto->disponibilidad,
             'precio' => $producto->precioVigente(),
             'precio_anterior' => $producto->tieneOferta() ? $producto->precio : null,
             'imagen' => $this->imagenTarjeta($producto),
@@ -174,11 +177,14 @@ class StorefrontController extends Controller
             'nombre' => $producto->nombre,
             'slug' => $producto->slug,
             'codigo' => $producto->codigo,
+            'marca' => $producto->marca,
+            'unidad_de_medida' => $producto->unidad_de_medida,
+            'disponibilidad' => $producto->disponibilidad,
             'descripcion' => $producto->descripcion,
             'precio' => $producto->precioVigente(),
             'precio_anterior' => $producto->tieneOferta() ? $producto->precio : null,
             'estoque' => $producto->stock,
-            'agotado' => $producto->stock <= 0,
+            'agotado' => $producto->stock <= 0 && $producto->disponibilidad === 'agotado',
             'imagenes' => $imagenes,
             'categoria' => [
                 'id' => $producto->categoria->id ?? null,

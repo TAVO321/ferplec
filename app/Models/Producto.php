@@ -6,7 +6,9 @@ use App\Services\ImageOptimizer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Producto extends Model
 {
@@ -14,6 +16,7 @@ class Producto extends Model
 
     protected $fillable = [
         'categoria_id', 'nombre', 'slug', 'descripcion', 'codigo',
+        'marca', 'unidad_de_medida', 'disponibilidad',
         'precio', 'precio_oferta', 'stock', 'activo', 'destacado',
     ];
 
@@ -28,6 +31,12 @@ class Producto extends Model
         ];
     }
 
+    public const DISPONIBILIDADES = [
+        'disponible' => 'Disponible',
+        'bajo_pedido' => 'Bajo pedido',
+        'agotado' => 'Agotado',
+    ];
+
     protected static function booted(): void
     {
         static::creating(function (Producto $producto) {
@@ -39,7 +48,7 @@ class Producto extends Model
 
     public static function slugUnico(string $nombre): string
     {
-        $base = \Illuminate\Support\Str::slug($nombre);
+        $base = Str::slug($nombre);
         $slug = $base;
         $i = 2;
 
@@ -64,6 +73,28 @@ class Producto extends Model
     public function valores(): HasMany
     {
         return $this->hasMany(ValorProducto::class, 'producto_id');
+    }
+
+    public function lotes(): HasMany
+    {
+        return $this->hasMany(Lote::class)->orderBy('fecha_ingreso');
+    }
+
+    public function lotesDisponibles(): HasMany
+    {
+        return $this->lotes()->where('cantidad_disponible', '>', 0);
+    }
+
+    public function proveedores(): BelongsToMany
+    {
+        return $this->belongsToMany(Proveedor::class, 'proveedor_producto')
+            ->withPivot(['costo', 'tiempo_entrega_dias', 'nota'])
+            ->withTimestamps();
+    }
+
+    public function movimientosStock(): HasMany
+    {
+        return $this->hasMany(MovimientoStock::class);
     }
 
     /**

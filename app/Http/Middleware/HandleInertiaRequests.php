@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use App\Models\Ajuste;
-use App\Services\CartService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
@@ -28,10 +27,7 @@ class HandleInertiaRequests extends Middleware
                 'nombre' => Ajuste::nombreTienda(),
                 'whatsapp' => Ajuste::whatsapp(),
                 'direccion' => Ajuste::direccion(),
-                'moneda' => 'Bs',
-            ],
-            'cart' => [
-                'count' => (new CartService($request))->contar(),
+                'moneda' => Ajuste::moneda(),
             ],
             'csrf_token' => fn () => $request->session()->token(),
         ];

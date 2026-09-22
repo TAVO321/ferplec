@@ -1,11 +1,13 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import IconoArea from '../Components/IconoArea.vue';
+import { useCart } from '../composables/useCart';
 
 const page = usePage();
 const tienda = computed(() => page.props.tienda ?? {});
-const carritoCount = computed(() => page.props.cart?.count ?? 0);
+const cart = useCart();
+const carritoCount = computed(() => cart.contar.value);
 const flash = computed(() => page.props.flash ?? {});
 
 const menuAbierto = ref(false);
@@ -47,8 +49,9 @@ function buscar() {
 
                 <nav class="hidden items-center gap-1 md:flex">
                     <Link href="/" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10 hover:text-white">Inicio</Link>
-                    <Link href="/catalogo" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10 hover:text-white">Catálogo</Link>
+                    <Link href="/catalogo" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10 hover:text-white">Catalogo</Link>
                     <Link href="/apartado" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10 hover:text-white">Apartar</Link>
+                    <Link href="/pedido-especial" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10 hover:text-white">Pedido especial</Link>
                 </nav>
 
                 <div class="hidden flex-1 justify-center px-4 md:flex">
@@ -110,8 +113,9 @@ function buscar() {
                 </form>
                 <nav class="flex flex-col gap-1">
                     <Link href="/" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10" @click="menuAbierto = false">Inicio</Link>
-                    <Link href="/catalogo" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10" @click="menuAbierto = false">Catálogo</Link>
+                    <Link href="/catalogo" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10" @click="menuAbierto = false">Catalogo</Link>
                     <Link href="/apartado" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10" @click="menuAbierto = false">Apartar productos</Link>
+                    <Link href="/pedido-especial" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10" @click="menuAbierto = false">Pedido especial</Link>
                 </nav>
             </div>
         </header>

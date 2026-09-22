@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nombre_cliente');
             $table->string('telefono');
             $table->string('direccion')->nullable();
+            $table->string('ubicacion')->nullable();
             $table->text('nota')->nullable();
             $table->string('estado')->default('apartado');
             $table->decimal('subtotal', 12, 2)->default(0);

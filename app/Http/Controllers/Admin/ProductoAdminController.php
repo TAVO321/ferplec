@@ -14,7 +14,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -46,6 +45,9 @@ class ProductoAdminController extends Controller
                     'id' => $p->id,
                     'nombre' => $p->nombre,
                     'codigo' => $p->codigo,
+                    'marca' => $p->marca,
+                    'unidad_de_medida' => $p->unidad_de_medida,
+                    'disponibilidad' => $p->disponibilidad,
                     'categoria' => $p->categoria?->nombre ?? '—',
                     'area' => $p->categoria?->area?->nombre ?? '—',
                     'precio' => $p->precioVigente(),
@@ -102,6 +104,9 @@ class ProductoAdminController extends Controller
                 'nombre' => $producto->nombre,
                 'descripcion' => $producto->descripcion,
                 'codigo' => $producto->codigo,
+                'marca' => $producto->marca,
+                'unidad_de_medida' => $producto->unidad_de_medida,
+                'disponibilidad' => $producto->disponibilidad,
                 'precio' => $producto->precio,
                 'precio_oferta' => $producto->precio_oferta,
                 'stock' => $producto->stock,
@@ -188,6 +193,9 @@ class ProductoAdminController extends Controller
             'nombre' => ['required', 'string', 'max:150'],
             'descripcion' => ['nullable', 'string', 'max:2000'],
             'codigo' => ['nullable', 'string', 'max:60'],
+            'marca' => ['nullable', 'string', 'max:80'],
+            'unidad_de_medida' => ['required', 'string', 'max:30'],
+            'disponibilidad' => ['required', 'string', 'in:'.implode(',', array_keys(Producto::DISPONIBILIDADES))],
             'precio' => ['required', 'numeric', 'min:0'],
             'precio_oferta' => ['nullable', 'numeric', 'min:0', 'lt:precio'],
             'stock' => ['required', 'integer', 'min:0'],
@@ -197,12 +205,12 @@ class ProductoAdminController extends Controller
             'imagenes.*' => ['string', 'max:255'],
             ...$reglasCampos,
         ], [
-            'categoria_id.required' => 'Elige la categoría.',
+            'categoria_id.required' => 'Elige la categoria.',
             'nombre.required' => 'El nombre es obligatorio.',
             'precio.required' => 'El precio es obligatorio.',
             'precio_oferta.lt' => 'El precio de oferta debe ser menor al precio normal.',
             'stock.required' => 'Indica la cantidad en stock.',
-            'stock.integer' => 'El stock debe ser un número entero.',
+            'stock.integer' => 'El stock debe ser un numero entero.',
         ]);
 
         return [
@@ -211,6 +219,9 @@ class ProductoAdminController extends Controller
                 'nombre' => $datos['nombre'],
                 'descripcion' => $datos['descripcion'] ?? null,
                 'codigo' => $datos['codigo'] ?? null,
+                'marca' => $datos['marca'] ?? null,
+                'unidad_de_medida' => $datos['unidad_de_medida'],
+                'disponibilidad' => $datos['disponibilidad'],
                 'precio' => $datos['precio'],
                 'precio_oferta' => filled($datos['precio_oferta'] ?? null) ? $datos['precio_oferta'] : null,
                 'stock' => $datos['stock'],

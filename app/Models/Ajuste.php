@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -39,5 +38,10 @@ class Ajuste extends Model
     public static function direccion(): string
     {
         return (string) static::obtener('direccion', env('STORE_ADDRESS', ''));
+    }
+
+    public static function moneda(): string
+    {
+        return (string) static::obtener('moneda', env('CURRENCY', 'Bs'));
     }
 }

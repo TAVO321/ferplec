@@ -24,11 +24,20 @@ const agruparAreas = computed(() => {
     return Array.from(mapa, ([nombre, categorias]) => ({ nombre, categorias }));
 });
 
+const DISPONIBILIDADES = {
+    disponible: 'Disponible',
+    bajo_pedido: 'Bajo pedido',
+    agotado: 'Agotado',
+};
+
 const form = useForm({
     categoria_id: props.producto?.categoria_id ?? null,
     nombre: props.producto?.nombre ?? '',
     descripcion: props.producto?.descripcion ?? '',
     codigo: props.producto?.codigo ?? '',
+    marca: props.producto?.marca ?? '',
+    unidad_de_medida: props.producto?.unidad_de_medida ?? 'und',
+    disponibilidad: props.producto?.disponibilidad ?? 'disponible',
     precio: props.producto?.precio ?? '',
     precio_oferta: props.producto?.precio_oferta ?? '',
     stock: props.producto?.stock ?? 0,
@@ -115,9 +124,29 @@ function guardar() {
                 </div>
 
                 <div>
-                    <label for="codigo" class="etiqueta">Código</label>
+                    <label for="codigo" class="etiqueta">Codigo</label>
                     <input id="codigo" v-model="form.codigo" type="text" class="campo" placeholder="Ej. CA-180">
                     <InputError :mensaje="form.errors.codigo" />
+                </div>
+
+                <div>
+                    <label for="marca" class="etiqueta">Marca</label>
+                    <input id="marca" v-model="form.marca" type="text" class="campo" placeholder="Ej. Truper">
+                    <InputError :mensaje="form.errors.marca" />
+                </div>
+
+                <div>
+                    <label for="unidad_de_medida" class="etiqueta">Unidad de medida</label>
+                    <input id="unidad_de_medida" v-model="form.unidad_de_medida" type="text" class="campo" placeholder="und, metro, kg, caja...">
+                    <InputError :mensaje="form.errors.unidad_de_medida" />
+                </div>
+
+                <div>
+                    <label for="disponibilidad" class="etiqueta">Disponibilidad</label>
+                    <select id="disponibilidad" v-model="form.disponibilidad" class="campo">
+                        <option v-for="(etiqueta, clave) in DISPONIBILIDADES" :key="clave" :value="clave">{{ etiqueta }}</option>
+                    </select>
+                    <InputError :mensaje="form.errors.disponibilidad" />
                 </div>
 
                 <div class="lg:col-span-2">

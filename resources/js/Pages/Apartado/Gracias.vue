@@ -27,9 +27,13 @@ const enlaceWhatsapp = computed(() => {
                 </span>
                 <h1 class="titulo-marca mt-5 text-3xl font-bold text-slate-900">¡Apartado registrado!</h1>
                 <p class="mt-2 text-slate-500">
-                    Tu código es <span class="font-mono font-bold text-rojo-700">{{ apartado.codigo }}</span>.
+                    Tu codigo es <span class="font-mono font-bold text-rojo-700">{{ apartado.codigo }}</span>.
                     Guardalo para hacer seguimiento del pedido.
                 </p>
+                <div class="mx-auto mt-4 max-w-lg rounded-xl bg-amber-50 p-4 text-sm text-amber-800">
+                    <p class="font-semibold">Pago al contado y adelantado</p>
+                    <p>Te contactaremos por WhatsApp para confirmar y coordinar el pago.</p>
+                </div>
             </div>
 
             <div class="mx-auto mt-10 max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white">

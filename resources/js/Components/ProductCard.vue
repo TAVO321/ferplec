@@ -1,30 +1,29 @@
 <script setup>
-import { Link, useForm } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
+import { useCart } from '../composables/useCart';
 import Moneda from './Moneda.vue';
 
 const props = defineProps({
     producto: { type: Object, required: true },
 });
 
-const form = useForm({
-    producto_id: props.producto.id,
-    cantidad: 1,
-});
+const cart = useCart();
 
 function agregar() {
-    if (props.producto.stock <= 0) {
+    if (props.producto.disponibilidad === 'agotado' && props.producto.stock <= 0) {
         return;
     }
 
-    form.post(route('cart.store'), {
-        preserveScroll: true,
-        onSuccess: () => form.reset(),
-    });
+    const resultado = cart.agregar(props.producto, 1);
+
+    if (!resultado.ok) {
+        alert(resultado.mensaje);
+    }
 }
 </script>
 
 <template>
-    <article class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+    <article class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md">
         <Link
             :href="route('catalogo.show', producto.slug)"
             class="relative block aspect-square overflow-hidden bg-slate-100"
@@ -34,7 +33,7 @@ function agregar() {
                 :src="producto.imagen"
                 :alt="producto.nombre"
                 loading="lazy"
-                class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                class="h-full w-full object-cover"
             >
             <div v-else class="flex h-full w-full items-center justify-center">
                 <span class="titulo-marca text-3xl font-semibold text-rojo-600">F</span>
@@ -59,6 +58,7 @@ function agregar() {
             <Link :href="route('catalogo.show', producto.slug)" class="line-clamp-2 text-sm font-semibold text-slate-800 hover:text-rojo-700">
                 {{ producto.nombre }}
             </Link>
+            <p v-if="producto.marca" class="text-xs text-slate-500">{{ producto.marca }}</p>
 
             <div class="mt-auto flex items-end justify-between gap-2 pt-2">
                 <div>
@@ -73,10 +73,11 @@ function agregar() {
                 <button
                     type="button"
                     class="boton-primario !px-3 !py-2 text-xs"
-                    :disabled="producto.stock <= 0 || form.processing"
+                    :disabled="(producto.disponibilidad === 'agotado' && producto.stock <= 0)"
                     @click="agregar"
                 >
-                    <span v-if="producto.stock <= 0">Agotado</span>
+                    <span v-if="producto.disponibilidad === 'agotado' && producto.stock <= 0">Agotado</span>
+                    <span v-else-if="producto.disponibilidad === 'bajo_pedido'">Pedir</span>
                     <span v-else>
                         <span class="sr-only">Agregar</span>+
                     </span>

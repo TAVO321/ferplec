@@ -1,0 +1,28 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('proveedor_producto', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('proveedor_id')->constrained('proveedores')->cascadeOnDelete();
+            $table->foreignId('producto_id')->constrained('productos')->cascadeOnDelete();
+            $table->decimal('costo', 12, 2)->nullable();
+            $table->unsignedSmallInteger('tiempo_entrega_dias')->nullable();
+            $table->text('nota')->nullable();
+            $table->timestamps();
+
+            $table->unique(['proveedor_id', 'producto_id']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('proveedor_producto');
+    }
+};

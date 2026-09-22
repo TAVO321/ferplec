@@ -7,7 +7,10 @@ use App\Models\Area;
 use App\Models\CampoCategoria;
 use App\Models\Categoria;
 use App\Models\Producto;
+use App\Models\User;
+use App\Models\ValorProducto;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,15 +29,27 @@ class DatabaseSeeder extends Seeder
         Ajuste::asignar('nombre_tienda', 'FERPLEC');
         Ajuste::asignar('whatsapp', env('WHATSAPP_NUMBER', '60000000'));
         Ajuste::asignar('direccion', env('STORE_ADDRESS', 'Av. Principal #000'));
+        Ajuste::asignar('moneda', env('CURRENCY', 'Bs'));
     }
 
     private function crearAdministrador(): void
     {
-        \App\Models\User::updateOrCreate(
+        $password = env('ADMIN_PASSWORD');
+
+        if (empty($password)) {
+            $password = Str::password(16, true, true, false, false);
+
+            // Mostrar password en consola solo en entorno local para que el admin pueda entrar
+            if (app()->environment('local')) {
+                echo "\n[FERPLEC] Admin creado: admin@ferplec.com / password: {$password}\n";
+            }
+        }
+
+        User::updateOrCreate(
             ['email' => 'admin@ferplec.com'],
             [
                 'nombre' => 'Administrador FERPLEC',
-                'password' => 'admin123',
+                'password' => $password,
                 'es_admin' => true,
                 'activo' => true,
             ],
@@ -116,21 +131,21 @@ class DatabaseSeeder extends Seeder
         ], 4);
 
         $this->producto($tornillos, 'Caja de tornillos para madera 2" (100 und.)', 12, 18,
-            ['material' => 'Acero', 'medida' => '50', 'tipo' => 'Para madera'], true, 80);
+            ['material' => 'Acero', 'medida' => '50', 'tipo' => 'Para madera'], true, 80, 'Truper', 'caja');
         $this->producto($candados, 'Candado larguero 50 mm', 35, 0,
-            ['material' => 'Acero', 'medida' => '50', 'tipo' => 'Larguero'], true, 25);
-        $this->producto($cables, 'Cable eléctrico 12 AWG cobre (rollo 100 m)', 250, 0,
-            ['calibre' => '12', 'material' => 'Cobre', 'voltaje' => '300', 'largo' => '100'], true, 15);
+            ['material' => 'Acero', 'medida' => '50', 'tipo' => 'Larguero'], true, 25, 'Hermex', 'und');
+        $this->producto($cables, 'Cable electrico 12 AWG cobre (rollo 100 m)', 250, 0,
+            ['calibre' => '12', 'material' => 'Cobre', 'voltaje' => '300', 'largo' => '100'], true, 15, 'Condumex', 'rollo');
         $this->producto($tomacorrientes, 'Tomacorriente doble polarizado 15 A', 18, 0,
-            ['tipo' => 'Tomacorriente', 'voltaje' => '250', 'amperaje' => '15'], true, 60);
+            ['tipo' => 'Tomacorriente', 'voltaje' => '250', 'amperaje' => '15'], true, 60, 'Voltech', 'und');
         $this->producto($focos, 'Foco LED 9 W E27 luz blanca', 12, 0,
-            ['tipo' => 'LED', 'base' => 'E27', 'potencia' => '9', 'voltaje' => '220'], true, 120);
-        $this->producto($tuberias, 'Tubo PVC 1/2" presión 10 bar (3 m)', 28, 0,
-            ['material' => 'PVC', 'diametro' => '1/2', 'largo' => '3', 'presion' => '10'], true, 40);
+            ['tipo' => 'LED', 'base' => 'E27', 'potencia' => '9', 'voltaje' => '220'], true, 120, 'Philips', 'und');
+        $this->producto($tuberias, 'Tubo PVC 1/2" presion 10 bar (3 m)', 28, 0,
+            ['material' => 'PVC', 'diametro' => '1/2', 'largo' => '3', 'presion' => '10'], true, 40, 'Tuboplastic', 'tubo');
         $this->producto($griferia, 'Llave de paso 3/4 cromada', 35, 0,
-            ['tipo' => 'Llave de paso', 'material' => 'Cromado', 'medida' => '3/4'], false, 30);
+            ['tipo' => 'Llave de paso', 'material' => 'Cromado', 'medida' => '3/4'], false, 30, 'Foset', 'und');
         $this->producto($conexiones, 'Codo PVC 1/2" cementado', 3, 0,
-            ['tipo' => 'Codo', 'material' => 'PVC', 'diametro' => '1/2'], false, 200);
+            ['tipo' => 'Codo', 'material' => 'PVC', 'diametro' => '1/2'], false, 200, 'Tuboplastic', 'und');
     }
 
     private function area(string $nombre, string $icono, string $descripcion, string $color): Area
@@ -172,15 +187,18 @@ class DatabaseSeeder extends Seeder
     /**
      * @param  array<string, string>  $atributos
      */
-    private function producto(Categoria $categoria, string $nombre, float $precio, float $precioOferta, array $atributos, bool $destacado, int $stock): void
+    private function producto(Categoria $categoria, string $nombre, float $precio, float $precioOferta, array $atributos, bool $destacado, int $stock, string $marca = 'Generica', string $unidad = 'und'): void
     {
         $producto = Producto::updateOrCreate(
             ['slug' => $this->slug($nombre)],
             [
                 'categoria_id' => $categoria->id,
                 'nombre' => $nombre,
-                'descripcion' => 'Artículo de '.\Illuminate\Support\Str::lower($categoria->area->nombre).' para su proyecto.',
+                'descripcion' => 'Articulo de '.Str::lower($categoria->area->nombre).' para su proyecto.',
                 'codigo' => strtoupper(substr($categoria->area->slug, 0, 3)).'-'.random_int(1000, 9999),
+                'marca' => $marca,
+                'unidad_de_medida' => $unidad,
+                'disponibilidad' => $stock > 0 ? 'disponible' : 'agotado',
                 'precio' => $precio,
                 'precio_oferta' => $precioOferta > 0 ? $precioOferta : null,
                 'stock' => $stock,
@@ -194,7 +212,7 @@ class DatabaseSeeder extends Seeder
         foreach ($atributos as $nombreCampo => $valor) {
             $campo = $categoria->campos()->where('nombre', $nombreCampo)->first();
             if ($campo !== null) {
-                \App\Models\ValorProducto::create([
+                ValorProducto::create([
                     'producto_id' => $producto->id,
                     'campo_id' => $campo->id,
                     'valor' => $valor,
@@ -205,6 +223,6 @@ class DatabaseSeeder extends Seeder
 
     private function slug(string $texto): string
     {
-        return \Illuminate\Support\Str::slug($texto);
+        return Str::slug($texto);
     }
 }

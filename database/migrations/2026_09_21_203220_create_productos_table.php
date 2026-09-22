@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('descripcion')->nullable();
             $table->string('codigo')->nullable();
+            $table->string('marca')->nullable();
+            $table->string('unidad_de_medida')->default('und');
+            $table->string('disponibilidad')->default('disponible');
             $table->decimal('precio', 12, 2);
             $table->decimal('precio_oferta', 12, 2)->nullable();
             $table->integer('stock')->default(0);

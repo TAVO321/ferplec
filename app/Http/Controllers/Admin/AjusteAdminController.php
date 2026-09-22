@@ -18,7 +18,7 @@ class AjusteAdminController extends Controller
                 'nombre_tienda' => Ajuste::obtener('nombre_tienda', 'FERPLEC'),
                 'whatsapp' => Ajuste::obtener('whatsapp', ''),
                 'direccion' => Ajuste::obtener('direccion', ''),
-                'moneda' => 'Bs',
+                'moneda' => Ajuste::moneda(),
             ],
         ]);
     }
@@ -29,6 +29,7 @@ class AjusteAdminController extends Controller
             'nombre_tienda' => ['required', 'string', 'max:80'],
             'whatsapp' => ['nullable', 'string', 'max:30', 'regex:/^[0-9+\-\s()]*$/'],
             'direccion' => ['nullable', 'string', 'max:255'],
+            'moneda' => ['required', 'string', 'max:10'],
         ], [
             'nombre_tienda.required' => 'El nombre de la tienda es obligatorio.',
             'whatsapp.regex' => 'El número de WhatsApp solo puede contener números.',
