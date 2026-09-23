@@ -29,7 +29,7 @@ function crear() {
         <div class="mx-auto max-w-4xl space-y-6">
             <div>
                 <h2 class="text-xl font-bold text-slate-900">Proveedores</h2>
-                <p class="text-sm text-slate-500">Aliados para pedidos especiales y lotes de inventario.</p>
+                <p class="text-sm text-slate-500">Aliados para lotes de inventario.</p>
             </div>
 
             <form class="rounded-2xl border border-slate-200 bg-white p-5" @submit.prevent="crear">

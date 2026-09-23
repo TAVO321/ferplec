@@ -3,14 +3,11 @@
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AjusteAdminController;
-use App\Http\Controllers\Admin\ApartadoAdminController;
 use App\Http\Controllers\Admin\CatalogAdminController;
 use App\Http\Controllers\Admin\LoteAdminController;
 use App\Http\Controllers\Admin\ProductoAdminController;
 use App\Http\Controllers\Admin\ProveedorAdminController;
-use App\Http\Controllers\ApartadoController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\PedidoEspecialController;
 use App\Http\Controllers\StorefrontController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,18 +19,6 @@ Route::middleware('throttle:global')->group(function () {
 
 Route::middleware('throttle:global')->prefix('carrito')->name('cart.')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('index');
-});
-
-Route::middleware('throttle:global')->prefix('apartado')->name('apartados.')->group(function () {
-    Route::get('/', [ApartadoController::class, 'index'])->name('index');
-    Route::post('/', [ApartadoController::class, 'store'])->name('store');
-    Route::get('/gracias/{apartado}', [ApartadoController::class, 'gracias'])->name('gracias');
-});
-
-Route::middleware('throttle:global')->prefix('pedido-especial')->name('pedidos_especiales.')->group(function () {
-    Route::get('/', [PedidoEspecialController::class, 'create'])->name('create');
-    Route::post('/', [PedidoEspecialController::class, 'store'])->name('store');
-    Route::get('/gracias/{pedido}', [PedidoEspecialController::class, 'gracias'])->name('gracias');
 });
 
 Route::prefix('acceso')->name('admin.')->group(function () {
@@ -62,11 +47,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::patch('/categorias/{categoria}', [CatalogAdminController::class, 'updateCategoria'])->name('catalog.categorias.update');
     Route::delete('/categorias/{categoria}', [CatalogAdminController::class, 'destroyCategoria'])->name('catalog.categorias.destroy');
     Route::post('/categorias/imagen', [CatalogAdminController::class, 'uploadImagen'])->name('catalog.imagen');
-
-    Route::get('/apartados', [ApartadoAdminController::class, 'index'])->name('apartados.index');
-    Route::get('/apartados/{apartado}', [ApartadoAdminController::class, 'show'])->name('apartados.show');
-    Route::patch('/apartados/{apartado}/estado', [ApartadoAdminController::class, 'updateEstado'])->name('apartados.estado');
-    Route::delete('/apartados/{apartado}', [ApartadoAdminController::class, 'destroy'])->name('apartados.destroy');
 
     Route::get('/proveedores', [ProveedorAdminController::class, 'index'])->name('proveedores.index');
     Route::post('/proveedores', [ProveedorAdminController::class, 'store'])->name('proveedores.store');

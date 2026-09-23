@@ -38,11 +38,6 @@ class Lote extends Model
         return $this->belongsTo(Proveedor::class);
     }
 
-    public function detallesApartado(): HasMany
-    {
-        return $this->hasMany(DetalleApartado::class);
-    }
-
     public function movimientos(): HasMany
     {
         return $this->hasMany(MovimientoStock::class);

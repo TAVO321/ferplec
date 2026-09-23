@@ -44,7 +44,7 @@ function guardar() {
                 <div>
                     <label class="etiqueta" for="whatsapp">WhatsApp</label>
                     <input id="whatsapp" v-model="form.whatsapp" type="text" class="campo" placeholder="Ej. 59171234567">
-                    <p class="mt-1 text-xs text-slate-400">Con prefijo de país, solo números. Se usa para los mensajes de apartado.</p>
+                    <p class="mt-1 text-xs text-slate-400">Con prefijo de país, solo números. Se usa para los pedidos por WhatsApp.</p>
                     <InputError :mensaje="form.errors.whatsapp" />
                 </div>
 
@@ -57,13 +57,13 @@ function guardar() {
                 <div>
                     <label class="etiqueta" for="moneda">Moneda</label>
                     <input id="moneda" v-model="form.moneda" type="text" class="campo" placeholder="Ej. Bs">
-                    <p class="mt-1 text-xs text-slate-400">Simbolo que se muestra en precios y apartados.</p>
+                    <p class="mt-1 text-xs text-slate-400">Simbolo que se muestra en precios.</p>
                     <InputError :mensaje="form.errors.moneda" />
                 </div>
 
                 <div class="rounded-xl bg-slate-50 p-4 text-sm text-slate-600">
                     <p class="font-semibold text-slate-800">Moneda</p>
-                    <p class="mt-1">Simbolo actual: <strong>{{ ajustes.moneda }}</strong>. Se usa para todos los precios y apartados.</p>
+                    <p class="mt-1">Simbolo actual: <strong>{{ ajustes.moneda }}</strong>. Se usa para todos los precios.</p>
                 </div>
             </div>
 

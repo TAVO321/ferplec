@@ -1,5 +1,7 @@
 <script setup>
-import { computed, ref, watch, onMounted } from 'vue';
+import {
+    computed, provide, ref, watch,
+} from 'vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import IconoArea from '../Components/IconoArea.vue';
 import { useCart } from '../composables/useCart';
@@ -13,6 +15,16 @@ const flash = computed(() => page.props.flash ?? {});
 const menuAbierto = ref(false);
 const busqueda = ref('');
 const toast = ref(null);
+const toastCart = ref(null);
+
+function mostrarToastCart(texto) {
+    toastCart.value = texto;
+    setTimeout(() => {
+        toastCart.value = null;
+    }, 2000);
+}
+
+provide('mostrarToastCart', mostrarToastCart);
 
 watch(
     flash,
@@ -48,10 +60,7 @@ function buscar() {
                 </Link>
 
                 <nav class="hidden items-center gap-1 md:flex">
-                    <Link href="/" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10 hover:text-white">Inicio</Link>
                     <Link href="/catalogo" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10 hover:text-white">Catalogo</Link>
-                    <Link href="/apartado" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10 hover:text-white">Apartar</Link>
-                    <Link href="/pedido-especial" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10 hover:text-white">Pedido especial</Link>
                 </nav>
 
                 <div class="hidden flex-1 justify-center px-4 md:flex">
@@ -124,10 +133,7 @@ function buscar() {
                     >
                 </form>
                 <nav class="flex flex-col gap-1">
-                    <Link href="/" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10" @click="menuAbierto = false">Inicio</Link>
                     <Link href="/catalogo" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10" @click="menuAbierto = false">Catalogo</Link>
-                    <Link href="/apartado" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10" @click="menuAbierto = false">Apartar productos</Link>
-                    <Link href="/pedido-especial" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/10" @click="menuAbierto = false">Pedido especial</Link>
                     <Link href="/acceso" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-400 hover:bg-white/10" @click="menuAbierto = false">Solo administradores</Link>
                 </nav>
             </div>
@@ -153,7 +159,6 @@ function buscar() {
                     <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-300">Catálogo</h3>
                     <ul class="mt-3 space-y-2 text-sm">
                         <li><Link href="/catalogo" class="text-slate-400 hover:text-white">Todos los productos</Link></li>
-                        <li><Link href="/apartado" class="text-slate-400 hover:text-white">Cómo apartar</Link></li>
                     </ul>
                 </div>
 
@@ -191,6 +196,21 @@ function buscar() {
                 role="status"
             >
                 {{ toast.texto }}
+            </div>
+        </Transition>
+
+        <Transition
+            enter-active-class="transition duration-300 ease-out"
+            enter-from-class="translate-y-4 opacity-0"
+            leave-active-class="transition duration-200 ease-in"
+            leave-to-class="translate-y-4 opacity-0"
+        >
+            <div
+                v-if="toastCart"
+                class="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full bg-slate-900 px-5 py-2.5 text-sm font-medium text-white shadow-lg"
+                role="status"
+            >
+                {{ toastCart }}
             </div>
         </Transition>
     </div>

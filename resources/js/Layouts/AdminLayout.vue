@@ -35,7 +35,6 @@ const itemsMenu = [
     { etiqueta: 'Panel', ruta: 'admin.dashboard', icono: 'M4 12h16M4 6h16M4 18h10' },
     { etiqueta: 'Productos', ruta: 'admin.productos.index', icono: 'M20 7H4l1 12h14L20 7zM9 9v4m6-4v4M12 3v4' },
     { etiqueta: 'Catalogo', ruta: 'admin.catalogo', icono: 'M4 5h16v5H4zM4 14h16v5H4z' },
-    { etiqueta: 'Apartados', ruta: 'admin.apartados.index', icono: 'M4 9h16M4 9l1 10h14l1-10M9 9V6h6v3' },
     { etiqueta: 'Proveedores', ruta: 'admin.proveedores.index', icono: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75' },
     { etiqueta: 'Lotes', ruta: 'admin.lotes.index', icono: 'M8 7h8M8 11h8M8 15h5M4 5h16v14H4z' },
     { etiqueta: 'Ajustes', ruta: 'admin.ajustes', icono: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19 8l1 4-1.6 1.2 3 2.6-2 3.4-3-.8-1.2 1.6H11.6L10.4 19l-3 .8-2-3.4 3-2.6-1.6-1.2L5 8' },

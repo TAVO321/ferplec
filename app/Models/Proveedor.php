@@ -29,11 +29,6 @@ class Proveedor extends Model
         return $this->hasMany(Lote::class);
     }
 
-    public function pedidosEspeciales(): HasMany
-    {
-        return $this->hasMany(PedidoEspecial::class);
-    }
-
     public function productos(): BelongsToMany
     {
         return $this->belongsToMany(Producto::class, 'proveedor_producto')

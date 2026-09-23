@@ -30,13 +30,10 @@ defineProps({
                         grifería y accesorios para el hogar y la instalación remunerativa.
                     </p>
                     <p class="mt-2 text-sm text-slate-400">
-                        Pedí en línea, apartá tus productos y coordinamos todo por WhatsApp.
+                        Agregá productos al carrito y envianos tu pedido por WhatsApp.
                     </p>
                     <div class="mt-8 flex flex-wrap gap-3">
                         <a href="/catalogo" class="boton-primario !px-7 !py-3 text-base">Ver catálogo</a>
-                        <a href="/apartado" class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/25 px-7 py-3 text-base font-semibold text-white transition hover:bg-white/10">
-                            Cómo apartar
-                        </a>
                     </div>
                 </div>
 

@@ -1,5 +1,6 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
+import { inject } from 'vue';
 import { useCart } from '../composables/useCart';
 import Moneda from './Moneda.vue';
 
@@ -8,6 +9,7 @@ const props = defineProps({
 });
 
 const cart = useCart();
+const mostrarToastCart = inject('mostrarToastCart', null);
 
 function agregar() {
     if (props.producto.disponibilidad === 'agotado' && props.producto.stock <= 0) {
@@ -18,6 +20,11 @@ function agregar() {
 
     if (!resultado.ok) {
         alert(resultado.mensaje);
+        return;
+    }
+
+    if (mostrarToastCart) {
+        mostrarToastCart('Agregado al carrito');
     }
 }
 </script>
