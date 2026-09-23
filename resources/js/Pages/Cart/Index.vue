@@ -37,7 +37,7 @@ function mensajeWhatsApp() {
     texto += `*Total estimado: Bs ${cart.total.value.toFixed(2)}*\n\n`;
     texto += 'Por favor confirmame disponibilidad y forma de pago/entrega. Gracias.';
 
-    return encodeURIComponent(texto);
+    return texto;
 }
 
 function enlaceWhatsApp() {
