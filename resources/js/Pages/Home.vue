@@ -38,18 +38,18 @@ defineProps({
                 </div>
 
                 <div class="relative">
-                    <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+                    <div class="grid grid-cols-3 gap-2 sm:gap-4">
                         <a
                             v-for="area in areas"
                             :key="area.id"
                             :href="'/catalogo?area=' + area.id"
-                            class="group rounded-2xl bg-white/5 p-4 text-center transition hover:bg-rojo-600 sm:p-5"
+                            class="group rounded-xl bg-white/5 p-2 text-center transition hover:bg-rojo-600 sm:rounded-2xl sm:p-5"
                         >
-                            <span class="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-rojo-600 text-white shadow-lg sm:h-14 sm:w-14 sm:rounded-2xl">
-                                <IconoArea :nombre="area.icono" clase="h-5 w-5 sm:h-7 sm:w-7" />
+                            <span class="mx-auto flex h-9 w-9 items-center justify-center rounded-lg bg-rojo-600 text-white shadow-lg sm:h-14 sm:w-14 sm:rounded-2xl">
+                                <IconoArea :nombre="area.icono" clase="h-4 w-4 sm:h-7 sm:w-7" />
                             </span>
-                            <p class="mt-2 text-sm font-bold sm:mt-3">{{ area.nombre }}</p>
-                            <p class="text-xs text-slate-400 group-hover:text-rojo-100">{{ area.cantidad_categorias }} categorias</p>
+                            <p class="mt-1.5 text-xs font-bold sm:mt-3 sm:text-sm">{{ area.nombre }}</p>
+                            <p class="text-[10px] text-slate-400 group-hover:text-rojo-100 sm:text-xs">{{ area.cantidad_categorias }} categorias</p>
                         </a>
                     </div>
                 </div>
