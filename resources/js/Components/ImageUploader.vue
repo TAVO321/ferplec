@@ -14,26 +14,37 @@ const cargando = ref(false);
 const error = ref('');
 
 async function subir(evento) {
-    const archivo = evento.target.files?.[0];
-    if (!archivo) {
+    const archivos = Array.from(evento.target.files ?? []);
+    if (archivos.length === 0) {
         return;
     }
 
     cargando.value = true;
     error.value = '';
 
-    try {
-        const fd = new FormData();
-        fd.append('imagen', archivo);
-        const { data } = await axios.post(props.url, fd);
-        emit('update:modelValue', [...props.modelValue, data]);
-    } catch (err) {
-        error.value = err.response?.data?.message ?? 'No se pudo subir la imagen.';
-    } finally {
-        cargando.value = false;
-        if (input.value) {
-            input.value.value = '';
+    const nuevas = [...props.modelValue];
+
+    for (const archivo of archivos) {
+        if (!archivo.type.startsWith('image/')) {
+            continue;
         }
+
+        try {
+            const fd = new FormData();
+            fd.append('imagen', archivo);
+            const { data } = await axios.post(props.url, fd);
+            nuevas.push(data);
+        } catch (err) {
+            error.value = err.response?.data?.message ?? `No se pudo subir ${archivo.name}.`;
+            break;
+        }
+    }
+
+    emit('update:modelValue', nuevas);
+    cargando.value = false;
+
+    if (input.value) {
+        input.value.value = '';
     }
 }
 
@@ -84,11 +95,12 @@ function quitar(indice) {
             ref="input"
             type="file"
             accept="image/jpeg,image/png,image/webp"
+            multiple
             class="hidden"
             @change="subir"
         >
 
         <p v-if="error" class="mt-2 text-sm text-rose-600">{{ error }}</p>
-        <p class="mt-2 text-xs text-slate-400">JPG, PNG o WebP · máximo 5 MB. La primera imagen es la principal.</p>
+        <p class="mt-2 text-xs text-slate-400">JPG, PNG o WebP · máximo 5 MB cada una · podés seleccionar varias a la vez. La primera imagen es la principal.</p>
     </div>
 </template>

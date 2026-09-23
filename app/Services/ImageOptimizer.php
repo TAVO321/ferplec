@@ -70,6 +70,14 @@ class ImageOptimizer
     }
 
     /**
+     * Alias de urlPublica().
+     */
+    public static function publicUrl(?string $url): ?string
+    {
+        return static::urlPublica($url);
+    }
+
+    /**
      * Reescribe el origen de una URL absoluta hacia la base configurada
      * (`IMAGES_PUBLIC_URL`) cuando difiere. Devuelve la URL tal cual si no aplica.
      */
@@ -230,6 +238,7 @@ class ImageOptimizer
         foreach (static::ANCHOS as $ancho) {
             if ($anchoOriginal !== null && $anchoOriginal <= $ancho) {
                 Cache::forever(static::claveCache($ruta, $ancho), false);
+
                 continue;
             }
 
