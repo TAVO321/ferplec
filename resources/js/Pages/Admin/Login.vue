@@ -29,13 +29,13 @@ function ingresar() {
             <form class="rounded-2xl bg-white p-6 shadow-xl" @submit.prevent="ingresar">
                 <div>
                     <label class="etiqueta" for="email">Correo electrónico</label>
-                    <input id="email" v-model="form.email" type="email" autocomplete="username" class="campo" placeholder="admin@ferplec.com" :disabled="form.processing">
+                    <input id="email" v-model="form.email" type="email" autocomplete="username" inputmode="email" autocapitalize="none" autocorrect="off" spellcheck="false" class="campo" placeholder="admin@ferplec.com" :disabled="form.processing">
                     <InputError :mensaje="form.errors.email" />
                 </div>
 
                 <div class="mt-4">
                     <label class="etiqueta" for="password">Contraseña</label>
-                    <input id="password" v-model="form.password" type="password" autocomplete="current-password" class="campo" placeholder="••••••••" :disabled="form.processing">
+                    <input id="password" v-model="form.password" type="password" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" class="campo" placeholder="••••••••" :disabled="form.processing">
                     <InputError :mensaje="form.errors.password" />
                 </div>
 

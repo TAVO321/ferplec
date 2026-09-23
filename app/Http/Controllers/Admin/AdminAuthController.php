@@ -26,7 +26,12 @@ class AdminAuthController extends Controller
             'password.required' => 'Escribe tu contraseña.',
         ]);
 
-        if (! Auth::attempt($datos, (bool) $request->boolean('recuerdame'))) {
+        $credenciales = [
+            'email' => strtolower(trim($datos['email'])),
+            'password' => $datos['password'],
+        ];
+
+        if (! Auth::attempt($credenciales, (bool) $request->boolean('recuerdame'))) {
             return back()->withErrors(['email' => 'Correo o contraseña incorrectos.']);
         }
 
