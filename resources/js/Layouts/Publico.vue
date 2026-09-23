@@ -5,12 +5,14 @@ import {
 import { Link, router, usePage } from '@inertiajs/vue3';
 import IconoArea from '../Components/IconoArea.vue';
 import { useCart } from '../composables/useCart';
+import { useWhatsApp } from '../composables/useWhatsApp';
 
 const page = usePage();
 const tienda = computed(() => page.props.tienda ?? {});
 const cart = useCart();
 const carritoCount = computed(() => cart.contar.value);
 const flash = computed(() => page.props.flash ?? {});
+const { urlWhatsApp: waUrl } = useWhatsApp();
 
 const menuAbierto = ref(false);
 const busqueda = ref('');
@@ -166,7 +168,7 @@ function buscar() {
                     <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-300">Contacto</h3>
                     <ul class="mt-3 space-y-2 text-sm text-slate-400">
                         <li v-if="tienda.whatsapp" class="flex items-center gap-2">
-                            <a :href="'https://wa.me/' + tienda.whatsapp" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-slate-400 hover:text-white">
+                            <a :href="waUrl(tienda.whatsapp)" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-slate-400 hover:text-white">
                                 WhatsApp: {{ tienda.whatsapp }}
                             </a>
                         </li>

@@ -28,7 +28,7 @@ class StorefrontController extends Controller
             ]);
 
         $destacados = $this->transformarProductos(
-            Producto::where('activo', true)->where('destacado', true)->with('categoria')->limit(6)->get(),
+            Producto::where('activo', true)->where('destacado', true)->with('categoria')->limit(4)->get(),
         );
 
         $nuevos = $this->transformarProductos(

@@ -58,28 +58,28 @@ function agregar() {
             </span>
         </Link>
 
-        <div class="flex flex-1 flex-col gap-2 p-3">
-            <p class="text-[11px] font-medium uppercase tracking-wide text-slate-400">
+        <div class="flex flex-1 flex-col gap-1.5 p-2.5 sm:gap-2 sm:p-3">
+            <p class="text-[10px] font-medium uppercase tracking-wide text-slate-400 sm:text-[11px]">
                 {{ producto.categoria }}
             </p>
-            <Link :href="route('catalogo.show', producto.slug)" class="line-clamp-2 text-sm font-semibold text-slate-800 hover:text-rojo-700">
+            <Link :href="route('catalogo.show', producto.slug)" class="line-clamp-2 text-xs font-semibold text-slate-800 hover:text-rojo-700 sm:text-sm">
                 {{ producto.nombre }}
             </Link>
-            <p v-if="producto.marca" class="text-xs text-slate-500">{{ producto.marca }}</p>
+            <p v-if="producto.marca" class="text-[10px] text-slate-500 sm:text-xs">{{ producto.marca }}</p>
 
             <div class="mt-auto flex items-end justify-between gap-2 pt-2">
                 <div>
-                    <p v-if="producto.precio_anterior" class="text-xs text-slate-400 line-through">
+                    <p v-if="producto.precio_anterior" class="text-[10px] text-slate-400 line-through sm:text-xs">
                         <Moneda :valor="producto.precio_anterior" />
                     </p>
                     <Moneda
                         :valor="producto.precio"
-                        clase="text-lg font-bold text-slate-900"
+                        clase="text-base font-bold text-slate-900 sm:text-lg"
                     />
                 </div>
                 <button
                     type="button"
-                    class="boton-primario !px-3 !py-2 text-xs"
+                    class="boton-primario !px-2.5 !py-1.5 text-[10px] sm:!px-3 sm:!py-2 sm:text-xs"
                     :disabled="(producto.disponibilidad === 'agotado' && producto.stock <= 0)"
                     @click="agregar"
                 >

@@ -73,7 +73,7 @@ function agregar() {
                         </span>
                     </div>
 
-                    <div v-if="imagenes.length > 1" class="mt-3 grid grid-cols-5 gap-2">
+                    <div v-if="imagenes.length > 1" class="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-5">
                         <button
                             v-for="(img, i) in imagenes"
                             :key="img.uid"

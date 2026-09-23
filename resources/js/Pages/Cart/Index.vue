@@ -4,9 +4,11 @@ import { Link, usePage } from '@inertiajs/vue3';
 import Publico from '../../Layouts/Publico.vue';
 import Moneda from '../../Components/Moneda.vue';
 import { useCart } from '../../composables/useCart';
+import { useWhatsApp } from '../../composables/useWhatsApp';
 
 const cart = useCart();
 const page = usePage();
+const { urlWhatsApp } = useWhatsApp();
 const whatsapp = computed(() => (page.props.tienda?.whatsapp ?? '').replace(/\D/g, ''));
 
 function cambiarCantidad(productoId, cantidad) {
@@ -38,11 +40,11 @@ function mensajeWhatsApp() {
     return encodeURIComponent(texto);
 }
 
-function urlWhatsApp() {
+function enlaceWhatsApp() {
     if (!whatsapp.value) {
         return '#';
     }
-    return `https://wa.me/${whatsapp.value}?text=${mensajeWhatsApp()}`;
+    return urlWhatsApp.value(whatsapp.value, mensajeWhatsApp());
 }
 </script>
 
@@ -112,7 +114,7 @@ function urlWhatsApp() {
                     </dl>
 
                     <a
-                        :href="urlWhatsApp()"
+                        :href="enlaceWhatsApp()"
                         target="_blank"
                         rel="noopener"
                         class="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-green-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700"

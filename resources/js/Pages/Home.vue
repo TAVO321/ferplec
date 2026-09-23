@@ -13,8 +13,8 @@ defineProps({
 <template>
     <Publico>
         <section class="relative overflow-hidden bg-black text-white">
-            <div class="pointer-events-none absolute -right-40 -top-40 h-96 w-96 rounded-full bg-rojo-700/30 blur-3xl" />
-            <div class="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-rojo-900/40 blur-3xl" />
+            <div class="pointer-events-none absolute -right-40 -top-40 hidden h-96 w-96 rounded-full bg-rojo-700/30 blur-3xl md:block" />
+            <div class="pointer-events-none absolute -bottom-32 -left-32 hidden h-80 w-80 rounded-full bg-rojo-900/40 blur-3xl md:block" />
 
             <div class="pantalla relative grid items-center gap-10 py-16 lg:grid-cols-2 lg:py-24">
                 <div>
@@ -22,34 +22,34 @@ defineProps({
                         <span class="h-1.5 w-1.5 rounded-full bg-rojo-500" />
                         Ferretería · Plomería · Electricidad
                     </p>
-                    <h1 class="titulo-marca mt-5 text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+                    <h1 class="titulo-marca mt-5 text-3xl font-bold leading-tight sm:text-5xl lg:text-6xl">
                         Todo para tu <span class="text-rojo-500">proyecto</span>, en un solo lugar
                     </h1>
-                    <p class="mt-5 max-w-xl text-lg text-slate-300">
+                    <p class="mt-4 max-w-xl text-base text-slate-300 sm:mt-5 sm:text-lg">
                         FERPLEC es tu ferretería de confianza: herramientas, tuberías, cables,
                         grifería y accesorios para el hogar y la instalación remunerativa.
                     </p>
                     <p class="mt-2 text-sm text-slate-400">
                         Agregá productos al carrito y envianos tu pedido por WhatsApp.
                     </p>
-                    <div class="mt-8 flex flex-wrap gap-3">
-                        <a href="/catalogo" class="boton-primario !px-7 !py-3 text-base">Ver catálogo</a>
+                    <div class="mt-6 flex flex-wrap gap-3 sm:mt-8">
+                        <a href="/catalogo" class="boton-primario !px-5 !py-2.5 text-sm sm:!px-7 sm:!py-3 sm:text-base">Ver catálogo</a>
                     </div>
                 </div>
 
                 <div class="relative">
-                    <div class="grid grid-cols-3 gap-4">
+                    <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
                         <a
                             v-for="area in areas"
                             :key="area.id"
                             :href="'/catalogo?area=' + area.id"
-                            class="group rounded-2xl bg-white/5 p-5 text-center backdrop-blur transition hover:bg-rojo-600"
+                            class="group rounded-2xl bg-white/5 p-4 text-center transition hover:bg-rojo-600 sm:p-5"
                         >
-                            <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-rojo-600 text-white shadow-lg">
-                                <IconoArea :nombre="area.icono" clase="h-7 w-7" />
+                            <span class="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-rojo-600 text-white shadow-lg sm:h-14 sm:w-14 sm:rounded-2xl">
+                                <IconoArea :nombre="area.icono" clase="h-5 w-5 sm:h-7 sm:w-7" />
                             </span>
-                            <p class="mt-3 text-sm font-bold">{{ area.nombre }}</p>
-                            <p class="text-xs text-slate-400 group-hover:text-rojo-100">{{ area.cantidad_categorias }} áreas</p>
+                            <p class="mt-2 text-sm font-bold sm:mt-3">{{ area.nombre }}</p>
+                            <p class="text-xs text-slate-400 group-hover:text-rojo-100">{{ area.cantidad_categorias }} categorias</p>
                         </a>
                     </div>
                 </div>
