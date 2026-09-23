@@ -78,7 +78,7 @@ function guardar() {
     }));
 
     if (props.producto) {
-        form.put(route('admin.productos.update', props.producto.id));
+        form.patch(route('admin.productos.update', props.producto.id));
     } else {
         form.post(route('admin.productos.store'));
     }
