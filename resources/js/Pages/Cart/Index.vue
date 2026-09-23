@@ -22,7 +22,11 @@ function mensajeWhatsApp() {
     let texto = `Hola ${tienda}, quiero hacer un pedido:\n\n`;
 
     cart.items.value.forEach((item, i) => {
-        texto += `${i + 1}. ${item.nombre} (${item.marca || 'sin marca'})\n`;
+        texto += `${i + 1}. ${item.nombre}`;
+        if (item.marca) {
+            texto += ` (${item.marca})`;
+        }
+        texto += `\n`;
         texto += `   Cantidad: ${item.cantidad} ${item.unidad_de_medida}\n`;
         texto += `   Precio unitario: Bs ${Number(item.precio).toFixed(2)}\n`;
         texto += `   Subtotal: Bs ${(item.precio * item.cantidad).toFixed(2)}\n\n`;
@@ -44,7 +48,7 @@ function urlWhatsApp() {
 
 <template>
     <Publico>
-        <div class="pantalla py-8 sm:py-10">
+        <div class="pantalla py-6 sm:py-10">
             <h1 class="titulo-marca text-2xl font-bold text-slate-900 sm:text-3xl">Tu carrito</h1>
             <p class="mt-1 text-sm text-slate-500">Se guarda por 24 horas en este dispositivo.</p>
 
@@ -66,45 +70,30 @@ function urlWhatsApp() {
                                     {{ item.nombre }}
                                 </a>
                                 <p class="text-xs text-slate-500">{{ item.marca }} · {{ item.unidad_de_medida }}</p>
-                                <div class="mt-1 flex flex-wrap items-center gap-2">
+
+                                <div class="mt-2 flex flex-wrap items-center gap-2">
                                     <Moneda v-if="item.precio_anterior" :valor="item.precio_anterior" clase="text-xs text-slate-400 line-through" />
                                     <Moneda :valor="item.precio" clase="text-sm font-bold text-slate-900" />
                                 </div>
-
-                                <div class="mt-3 flex items-center justify-between gap-3 sm:hidden">
-                                    <div class="flex items-center rounded-xl border border-slate-200">
-                                        <button type="button" class="flex h-9 w-9 items-center justify-center text-lg text-slate-500 hover:text-rojo-600" @click="cambiarCantidad(item.producto_id, item.cantidad - 1)">−</button>
-                                        <span class="w-9 text-center text-sm font-semibold">{{ item.cantidad }}</span>
-                                        <button type="button" class="flex h-9 w-9 items-center justify-center text-lg text-slate-500 hover:text-rojo-600 disabled:opacity-40" :disabled="item.cantidad >= 99" @click="cambiarCantidad(item.producto_id, item.cantidad + 1)">+</button>
-                                    </div>
-                                    <button type="button" class="flex h-9 w-9 items-center justify-center rounded-xl text-slate-400 transition hover:bg-rose-50 hover:text-rose-600" :aria-label="`Quitar ${item.nombre}`" @click="quitar(item.producto_id)">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5"><path d="M19 7l-.9 12.1A2 2 0 0116.1 21H7.9a2 2 0 01-2-1.9L5 7m5 4v6m4-6v6M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                                    </button>
-                                </div>
                             </div>
 
-                            <div class="hidden shrink-0 flex-col items-end justify-between sm:flex">
-                                <button type="button" class="flex h-9 w-9 items-center justify-center rounded-xl text-slate-400 transition hover:bg-rose-50 hover:text-rose-600" :aria-label="`Quitar ${item.nombre}`" @click="quitar(item.producto_id)">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5"><path d="M19 7l-.9 12.1A2 2 0 0116.1 21H7.9a2 2 0 01-2-1.9L5 7m5 4v6m4-6v6M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                                </button>
-                                <div class="text-right">
-                                    <p class="text-xs text-slate-400">x{{ item.cantidad }}</p>
-                                    <Moneda :valor="(item.precio * item.cantidad).toFixed(2)" clase="text-sm font-bold text-slate-900" />
-                                </div>
-                            </div>
+                            <button
+                                type="button"
+                                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-400 transition hover:bg-rose-50 hover:text-rose-600"
+                                :aria-label="`Quitar ${item.nombre}`"
+                                @click="quitar(item.producto_id)"
+                            >
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-4 w-4"><path d="M19 7l-.9 12.1A2 2 0 0116.1 21H7.9a2 2 0 01-2-1.9L5 7m5 4v6m4-6v6M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                            </button>
                         </div>
 
-                        <div class="mt-3 hidden items-center justify-between border-t border-slate-100 pt-3 sm:flex">
+                        <div class="mt-3 flex items-center justify-between border-t border-slate-100 pt-3">
                             <div class="flex items-center rounded-xl border border-slate-200">
-                                <button type="button" class="flex h-10 w-10 items-center justify-center text-lg text-slate-500 hover:text-rojo-600" @click="cambiarCantidad(item.producto_id, item.cantidad - 1)">−</button>
+                                <button type="button" class="flex h-9 w-9 items-center justify-center text-lg text-slate-500 hover:text-rojo-600" @click="cambiarCantidad(item.producto_id, item.cantidad - 1)">−</button>
                                 <span class="w-9 text-center text-sm font-semibold">{{ item.cantidad }}</span>
-                                <button type="button" class="flex h-10 w-10 items-center justify-center text-lg text-slate-500 hover:text-rojo-600 disabled:opacity-40" :disabled="item.cantidad >= 99" @click="cambiarCantidad(item.producto_id, item.cantidad + 1)">+</button>
+                                <button type="button" class="flex h-9 w-9 items-center justify-center text-lg text-slate-500 hover:text-rojo-600 disabled:opacity-40" :disabled="item.cantidad >= 99" @click="cambiarCantidad(item.producto_id, item.cantidad + 1)">+</button>
                             </div>
                             <Moneda :valor="(item.precio * item.cantidad).toFixed(2)" clase="text-base font-bold text-slate-900" />
-                        </div>
-
-                        <div class="mt-2 text-right text-sm font-bold text-slate-900 sm:hidden">
-                            Subtotal: <Moneda :valor="(item.precio * item.cantidad).toFixed(2)" />
                         </div>
                     </div>
                 </div>

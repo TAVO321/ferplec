@@ -1,9 +1,11 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, inject, ref } from 'vue';
 import { useCart } from '../../composables/useCart';
 import Publico from '../../Layouts/Publico.vue';
 import ProductCard from '../../Components/ProductCard.vue';
 import Moneda from '../../Components/Moneda.vue';
+
+const mostrarToastCart = inject('mostrarToastCart', null);
 
 const props = defineProps({
     producto: { type: Object, required: true },
@@ -18,7 +20,7 @@ const imagenes = computed(() => props.producto.imagenes ?? []);
 const imagenActual = computed(() => imagenes.value[seleccionada.value] ?? null);
 
 function agregar() {
-    if (props.producto.disponibilidad === 'agotado' && props.producto.agotado) {
+    if (props.producto.disponibilidad === 'agotado' && props.producto.stock <= 0) {
         return;
     }
 
@@ -27,6 +29,10 @@ function agregar() {
     if (!resultado.ok) {
         alert(resultado.mensaje);
         return;
+    }
+
+    if (mostrarToastCart) {
+        mostrarToastCart(`Agregado (${cantidad.value}) al carrito`);
     }
 
     cantidad.value = 1;
