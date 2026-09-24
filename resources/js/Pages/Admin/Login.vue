@@ -16,7 +16,7 @@ function ingresar() {
 </script>
 
 <template>
-    <div class="flex min-h-screen items-center justify-center bg-black px-4">
+    <div class="flex min-h-screen items-center justify-center overflow-y-auto bg-black px-4 py-6">
         <div class="pointer-events-none fixed -right-40 -top-40 h-96 w-96 rounded-full bg-rojo-700/30 blur-3xl" />
 
         <div class="relative w-full max-w-md">

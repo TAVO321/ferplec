@@ -21,15 +21,14 @@ Route::middleware('throttle:global')->prefix('carrito')->name('cart.')->group(fu
     Route::get('/', [CartController::class, 'index'])->name('index');
 });
 
-Route::get('/acceso', function () {
-    return redirect()->route('admin.dashboard');
-})->name('admin.login');
-
-Route::post('/acceso', [AdminAuthController::class, 'login'])->name('admin.login.store');
+Route::prefix('acceso')->name('admin.')->group(function () {
+    Route::get('/', [AdminAuthController::class, 'mostrarLogin'])->name('login');
+    Route::post('/', [AdminAuthController::class, 'login'])->name('login.store');
+});
 
 Route::post('/acceso/salir', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
-Route::prefix('admin')->name('admin.')->middleware(['acceso-libre', 'admin'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
 
     Route::get('/productos', [ProductoAdminController::class, 'index'])->name('productos.index');
